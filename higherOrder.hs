@@ -26,3 +26,21 @@ lengthGt x = lenfun
 
 numLongChains'' :: Int -> Int -> Int  
 numLongChains'' x y = length (filter (lengthGt y) (map chain [1..x] ))  
+
+reverseM :: [a] -> [a]
+reverseM = foldl (\acc x -> x : acc) []
+
+productM :: (Num a ) => [a] -> a
+--productM = foldl (\acc x -> acc * x) 1
+productM = foldl (*) 1
+
+-- last
+
+filterM :: (a -> Bool) -> [a] -> [a]
+filterM p = foldr(\x acc -> if p x then x : acc else acc) []
+
+headM :: [a] -> a
+headM = foldl1(\x _ -> x)
+
+lastM :: [a] -> a
+lastM = foldr1(\_ x -> x)
