@@ -1,3 +1,5 @@
+import Data.List  
+
 data Section = Section {getA :: Int, getB :: Int, getC :: Int} deriving (Show)
 type RoadSystem = [Section]
 
@@ -33,3 +35,18 @@ optimalPath roadSystem =
     in if lenA <= lenB
         then reverse bestBPath
         else reverse bestBPath
+
+groupsOf :: Int -> [a] -> [[a]]
+groupsOf 0 _ = undefined
+groupsOf _ [] = []
+groupsOf n list = take n list : groupsOf n (drop n list)
+
+main = do  
+    contents <- getContents  
+    let threes = groupsOf 3 (map read $ lines contents)  
+        roadSystem = map (\[a,b,c] -> Section a b c) threes  
+        path = optimalPath roadSystem  
+        pathString = concat $ map (show . fst) path  
+        pathPrice = sum $ map snd path  
+    putStrLn $ "The best path to take is: " ++ pathString  
+    putStrLn $ "The price is: " ++ show pathPrice  
