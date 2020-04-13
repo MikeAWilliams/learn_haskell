@@ -15,18 +15,12 @@ roadStep (pathA, pathB, lenA, lenB) (Section a b c) =
         crossPriceToA = lenB + b + c  
         forwardPriceToB = lenB + b  
         crossPriceToB = lenA + a + c  
-        newPathToA = if forwardPriceToA <= crossPriceToA  
-                        then (A,a):pathA  
-                        else (C,c):(B,b):pathB  
-        newPathToB = if forwardPriceToB <= crossPriceToB  
-                        then (B,b):pathB  
-                        else (C,c):(A,a):pathA
-        newLenA = if forwardPriceToA <= crossPriceToA
-                        then forwardPriceToA
-                        else crossPriceToA
-        newLenB = if forwardPriceToB <= crossPriceToB
-                        then forwardPriceToB
-                        else crossPriceToB
+        (newPathToA, newLenA) = if forwardPriceToA <= crossPriceToA  
+                                then ((A,a):pathA, forwardPriceToA)
+                                else ((C,c):(B,b):pathB, crossPriceToA)
+        (newPathToB, newLenB) = if forwardPriceToB <= crossPriceToB  
+                                then ((B,b):pathB, forwardPriceToB)
+                                else ((C,c):(A,a):pathA, crossPriceToB)
     in  (newPathToA, newPathToB, newLenA, newLenB)  
 
 optimalPath :: RoadSystem -> (Path, Int)
