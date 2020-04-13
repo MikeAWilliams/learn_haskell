@@ -29,12 +29,12 @@ roadStep (pathA, pathB, lenA, lenB) (Section a b c) =
                         else crossPriceToB
     in  (newPathToA, newPathToB, newLenA, newLenB)  
 
-optimalPath :: RoadSystem -> Path
+optimalPath :: RoadSystem -> (Path, Int)
 optimalPath roadSystem =
     let (bestAPath, bestBPath, lenA, lenB) = foldl roadStep ([], [], 0, 0) roadSystem
     in if lenA <= lenB
-        then reverse bestBPath
-        else reverse bestBPath
+        then (reverse bestAPath, lenA)
+        else (reverse bestBPath, lenB)
 
 groupsOf :: Int -> [a] -> [[a]]
 groupsOf 0 _ = undefined
@@ -45,8 +45,7 @@ main = do
     contents <- getContents  
     let threes = groupsOf 3 (map read $ lines contents)  
         roadSystem = map (\[a,b,c] -> Section a b c) threes  
-        path = optimalPath roadSystem  
+        (path, len) = optimalPath roadSystem  
         pathString = concat $ map (show . fst) path  
-        pathPrice = sum $ map snd path  
     putStrLn $ "The best path to take is: " ++ pathString  
-    putStrLn $ "The price is: " ++ show pathPrice  
+    putStrLn $ "The price is: " ++ show len  
