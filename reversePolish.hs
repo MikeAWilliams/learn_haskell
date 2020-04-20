@@ -11,4 +11,5 @@ twos = concat twoList
 testString = "2 2 +" ++ twos 
 -- :set +s
 -- reversePoliish testString
+-- 2000004.0 
 -- (3.45 secs, 5,195,872,968 bytes)
